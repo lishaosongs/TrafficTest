@@ -14,6 +14,10 @@ import (
 	CliV2 "github.com/urfave/cli/v2"
 )
 
+// 版本和编译时间
+var version = ""
+var date = ""
+
 var (
 	thisTime       int64
 	terminalWriter *goterminal.Writer
@@ -31,7 +35,8 @@ func main() {
 		Name:        "TrafficTest",
 		Usage:       "流量测试工具",
 		UsageText:   "TrafficTest [命令选项] [参数...]",
-		Version:     "0.1",
+		Version:     version,
+		Description: "编译时间" + date + "\n" + "版本号" + version,
 		HideVersion: true,
 		Flags: []CliV2.Flag{
 			&CliV2.IntFlag{
