@@ -46,6 +46,16 @@ func GoFun(ReqUrl string, postContent string, getContent bool, Referer string, X
 		KeepAlive: 30 * time.Second,
 	}
 	ip := ""
+	ipPort := "80"
+	ipPortSSL := "443"
+	//判断URL是否携带了端口
+	parsedURL, err := URL.Parse(ReqUrl)
+	if err == nil {
+		if parsedURL.Port() != "" {
+			ipPort = parsedURL.Port()
+			ipPortSSL = parsedURL.Port()
+		}
+	}
 	transport.DialContext = func(ctx context.Context, network, addr string) (net.Conn, error) {
 		ip = customIP[rand.Intn(len(customIP))]
 		ParseIP := net.ParseIP(ip)
@@ -56,10 +66,10 @@ func GoFun(ReqUrl string, postContent string, getContent bool, Referer string, X
 		}
 		if ParseIP.To4() != nil {
 			// IPv4 地址
-			addr = ip + ":80"
+			addr = ip + ":" + ipPort
 		} else {
 			// IPv6 地址
-			addr = "[" + ip + "]:80"
+			addr = "[" + ip + "]:" + ipPort
 		}
 		return dialer.DialContext(ctx, network, addr)
 	}
@@ -73,10 +83,10 @@ func GoFun(ReqUrl string, postContent string, getContent bool, Referer string, X
 		}
 		if ParseIP.To4() != nil {
 			// IPv4 地址
-			addr = ip + ":443"
+			addr = ip + ":" + ipPortSSL
 		} else {
 			// IPv6 地址
-			addr = "[" + ip + "]:443"
+			addr = "[" + ip + "]:" + ipPortSSL
 		}
 		return tls.DialWithDialer(dialer, network, addr, &tls.Config{
 			InsecureSkipVerify: true, // 仅在测试环境中使用，忽略证书验证
