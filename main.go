@@ -30,9 +30,23 @@ func init() {
 	terminalWriter = goterminal.New(os.Stdout)
 }
 
+// 生成一个文字logo TrafficTest
+var cmdLogo = `
+  _____           __  __ _      
+ |_   _| __ __ _ / _|/ _(_) ___ 
+   | || '__/ _| | |_| |_| |/ __|
+   | || | | (_| |  _|  _| | (__ 
+   |_||_|  \__,_|_| |_| |_|\___|
+  _____         _               
+ |_   _|__  ___| |_             
+   | |/ _ \/ __| __|            
+   | |  __/\__ \ |_             
+   |_|\___||___/\__|
+`
+
 func main() {
 	app := &CliV2.App{
-		Name:        "TrafficTest",
+		Name:        cmdLogo + "\n" + "TrafficTest",
 		Usage:       "流量测试工具",
 		UsageText:   "TrafficTest [命令选项] [参数...]",
 		Version:     version,
